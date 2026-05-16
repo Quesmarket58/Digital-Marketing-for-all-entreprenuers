@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Confirmed — Digital Product Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#020818;--bg2:#030d22;--bg3:#04112e;--cyan:#00d4ff;--c2:#00aadd;--org:#ff6b35;--grn:#00ff88;--bdr:rgba(0,212,255,0.15);--bdhi:rgba(0,212,255,0.45);--mu:#6b7fa3;--tx:#c8d4e8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Exo 2',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+
+/* PARTICLES */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.pt{position:absolute;border-radius:50%;background:var(--cyan);opacity:0;animation:ptA linear infinite;}
+@keyframes ptA{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.4}90%{opacity:.1}100%{opacity:0;transform:translateY(-10vh) scale(1.5)}}
+
+/* ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbF ease-in-out infinite;}
+@keyframes orbF{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
+.orb1{width:400px;height:400px;background:rgba(0,212,255,0.06);top:-100px;right:-100px;animation-duration:12s;}
+.orb2{width:300px;height:300px;background:rgba(0,255,136,0.04);bottom:-80px;left:-80px;animation-duration:9s;animation-delay:3s;}
+
+.container{position:relative;z-index:1;text-align:center;max-width:560px;width:90%;animation:fadeUp .8s ease forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* SUCCESS ICON */
+.success-ring{width:100px;height:100px;border-radius:50%;border:2px solid var(--grn);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;background:rgba(0,255,136,0.08);box-shadow:0 0 40px rgba(0,255,136,0.2);animation:ringPulse 2s ease-in-out infinite;}
+@keyframes ringPulse{0%,100%{box-shadow:0 0 40px rgba(0,255,136,0.2)}50%{box-shadow:0 0 70px rgba(0,255,136,0.4)}}
+.check{font-size:42px;}
+
+.tag{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:.3em;color:var(--grn);margin-bottom:16px;display:block;}
+.title{font-family:'Orbitron',sans-serif;font-size:clamp(22px,4vw,36px);font-weight:900;color:#fff;margin-bottom:12px;line-height:1.2;}
+.title span{background:linear-gradient(135deg,var(--cyan),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.subtitle{font-size:15px;color:var(--mu);line-height:1.7;margin-bottom:36px;}
+
+/* PASSWORD BOX */
+.pw-box{background:rgba(0,212,255,0.04);border:1px solid var(--bdhi);border-radius:16px;padding:28px 32px;margin-bottom:28px;position:relative;overflow:hidden;}
+.pw-box::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.pw-label{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:.25em;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.pw-label::before,.pw-label::after{content:"";flex:1;height:1px;background:var(--bdr);}
+.pw-value{font-family:'Orbitron',sans-serif;font-size:36px;font-weight:900;color:#fff;letter-spacing:.15em;text-shadow:0 0 30px rgba(0,212,255,0.4);margin-bottom:10px;}
+.pw-note{font-size:12px;color:var(--mu);}
+.copy-pw{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;background:transparent;border:1px solid var(--bdr);color:var(--cyan);padding:6px 16px;border-radius:6px;cursor:pointer;margin-top:12px;transition:.3s;display:inline-block;}
+.copy-pw:hover{background:rgba(0,212,255,0.1);border-color:var(--cyan);}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;text-align:left;}
+.step{display:flex;align-items:flex-start;gap:14px;background:rgba(255,255,255,0.02);border:1px solid var(--bdr);border-radius:10px;padding:14px 18px;}
+.step-num{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;width:28px;height:28px;border-radius:50%;border:1px solid var(--cyan);background:rgba(0,212,255,0.1);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;}
+.step-text{font-size:13px;color:var(--tx);line-height:1.5;padding-top:4px;}
+.step-text strong{color:#fff;}
+
+/* CTA */
+.cta-btn{display:inline-block;font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(135deg,#0055aa,var(--cyan));color:#fff;border:none;padding:18px 40px;border-radius:10px;cursor:pointer;transition:.3s;text-decoration:none;box-shadow:0 0 30px rgba(0,212,255,0.3);animation:ctaPulse 2.5s ease-in-out infinite;}
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 30px rgba(0,212,255,0.3)}50%{box-shadow:0 0 50px rgba(0,212,255,0.5)}}
+.cta-btn:hover{opacity:.85;transform:translateY(-3px);}
+
+.footer-note{font-size:11px;color:var(--mu);margin-top:20px;line-height:1.6;}
+.footer-note a{color:var(--cyan);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="container">
+
+  <div class="success-ring"><div class="check">✓</div></div>
+
+  <span class="tag">PAYMENT CONFIRMED</span>
+  <h1 class="title">Welcome to<br><span>Digital Product Studio</span></h1>
+  <p class="subtitle">Your payment was successful. You now have full lifetime access to your AI Coach dashboard. Here's everything you need to get started right now.</p>
+
+  <!-- PASSWORD -->
+  <div class="pw-box">
+    <div class="pw-label">YOUR MEMBER PASSWORD</div>
+    <div class="pw-value" id="pwDisplay">DPS2026</div>
+    <div class="pw-note">Save this password — you'll need it every time you log in</div>
+    <button class="copy-pw" onclick="copyPW()">📋 Copy Password</button>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Copy your password above</strong> — DPS2026 — and keep it somewhere safe like your notes app</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Click the button below</strong> to enter your members dashboard</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Bookmark the dashboard page</strong> so you can come back anytime</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Start with Module 01</strong> — TAP Validation — and work through each module in order</div>
+    </div>
+  </div>
+
+  <a class="cta-btn" href="https://quesmarket58.github.io/Digital-Marketing-for-all-entreprenuers/dashboard.html">🚀 Enter Your Members Dashboard →</a>
+
+  <p class="footer-note">
+    A receipt has been sent to your email.<br>
+    Questions? Contact us at <a href="mailto:support@quesmarketing.com">support@quesmarketing.com</a>
+  </p>
+
+</div>
+
+<script>
+// Particles
+(function(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<15;i++){
+    const p=document.createElement('div');
+    p.className='pt';
+    const s=Math.random()*3+1;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${12+Math.random()*20}s;animation-delay:${Math.random()*15}s;`;
+    c.appendChild(p);
+  }
+})();
+
+// Copy password
+function copyPW(){
+  navigator.clipboard.writeText('DPS2026').then(()=>{
+    const btn=document.querySelector('.copy-pw');
+    btn.textContent='✅ Copied!';
+    setTimeout(()=>btn.textContent='📋 Copy Password',2000);
+  });
+}
+</script>
+</body>
+</html>
